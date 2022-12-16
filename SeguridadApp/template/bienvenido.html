@@ -1,0 +1,20 @@
+{% extends "plantilla.html" %}
+{% load static %}
+{% block title %}
+Rafita
+{% endblock %}
+
+{% block content %}
+<hr><hr>
+<div class="container text-center">
+    <div class="card bg-primary">
+        <div class="card-body">
+            <blockquote class="blockquote mb-0 text-light text-center">
+                <h1 class="text-light">{{ user.first_name | upper}} {{ user.last_name | upper}} - BIENVENIDO AL SISTEMA RAFITA</h1>
+            </blockquote>
+        </div>
+    </div>
+    <img src="{% static '/img/logo.png' %}" alt="logo_rafita" width="500px">
+</div>
+
+{% endblock %}

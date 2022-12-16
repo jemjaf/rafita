@@ -1,0 +1,2 @@
+./manage.py shell
+exec(open('comandos.py').read())

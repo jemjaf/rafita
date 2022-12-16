@@ -1,0 +1,128 @@
+{% extends "plantilla.html" %}
+
+{% block title %}
+Comprobantes
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card card-outline card-info mt-3">
+        <div class="card-header">
+            <h1 class="card-title">LISTADO DE COMPROBANTES</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-6 pull-right">
+                <form action="" method="GET">
+                    <div class="col-md-11 xdisplay_inputx form-group has-feedback">
+
+                        <input type="text" name="buscar" class="form-control has-feedback-left" id="single_cal1" aria-describedby="inputSuccess2Status">
+                        <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                        <span id="inputSuccess2Status" class="sr-only">(success)</span>
+                      </div>                
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary"><i class="fa fa-search"></i></button>
+                    </span>
+            </form>
+            </div>
+        </div> 
+        <div class="x_content">
+            <table class="table table-striped projects">
+                <table id="tablasubfamilias" class="table table-striped mt-4" style="width:100%">
+                    <thead class="table table-striped projects">
+                        <tr>
+                            <th><center>CODIGO</center></th>
+                            <th><center>CLIENTE</center></th>
+                            <th><center>FECHA</center></th>
+                            <th><center>PEDIDO</center></th>
+                            <th><center>CAJERO</center></th>
+                            <th><center>TIPO DE PAGO</center></th>
+                            <th><center>TIPO DE COMPROBANTE</center></th>
+                            <th><center>IMPORTE</center></th>
+                            <th><center>OPCIONES</center></th>
+                        </tr>
+                    </thead>
+                    {% if comprobantes %}
+                        {% for item in comprobantes %}
+                        <tr>
+                            <td><center>{{ item.id }}</center></td>
+                            <td><center>{{ item.cliente }}</center></td>
+                            <td><center>{{ item.fecha }}</center></td>
+                            <td><center>{{ item.pedido.id }}</center></td>
+                            <td><center>{{ item.apertura.cajero }}</center></td>
+                            <td><center>{{ item.tipoPago }}</center></td>
+                            <td><center>{{ item.tipoComprobante }}</center></td>
+                            <td><center>{{ item.importeTotal }}</center></td>
+                            <td style="text-align: center;">
+                                {% if perms.CajaApp.delete_comprobantepago %}
+                                <a href="#" onclick="eliminarComprobante('{{item.id}}','{{item.pedido.id}}')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Anular</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                    <tr style="text-align: center;">
+                        <td colspan="6">
+                            <p>No hay Registros</p>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </table>
+                <div class="row mt-3 justify-content-center">
+                    <nav>
+                        <ul class="pagination">
+                            {% if comprobantes.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=1">Primera</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ comprobantes.previous_page_number }}">&laquo;</a>
+                                </li>
+                            {% endif %}
+
+                            {% for pagina in paginas %}
+                                <li class="page-item{% if pagina_action == page %} active{% endif %}">
+                                    <a class="page-link" href="?page={{ pagina }}">{{ pagina }}</a>
+                                </li> 
+                            {% endfor %}
+                            
+                            {% if pedidos.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ comprobantes.next_page_number }}">&raquo;</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ comprobantes.paginator.num_pages }}">Ultima</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function eliminarComprobante(id,pedido){
+        
+        Swal.fire({
+            title: '¿Desea anular el comprobante?',
+            text: 'Codigo: '+ id + ' ' + 'Pedido: ' + pedido,
+            icon: 'error',
+            showCancelButton:true,
+            cancelButtonText:'No',
+            confirmButtonText:'Si',
+            confirmButtonColor:'#dc3545'
+        })
+        .then(function(result){
+            if(result.isConfirmed){
+                window.location.href="/comprobante/eliminar/" + id + '/'
+            }
+        })
+    }
+</script>
+
+
+{% endblock %}

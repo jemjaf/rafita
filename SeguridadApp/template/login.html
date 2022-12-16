@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Rafita</title>
+
+    <!-- Bootstrap -->
+    <link href="{% static '/vendors/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="{% static '/vendors/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="{% static '/vendors/nprogress/nprogress.css' %}" rel="stylesheet">
+    <!-- Animate.css -->
+    <link href="{% static '/vendors/animate.css/animate.min.css' %}" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="{% static '/build/css/custom.min.css' %}" rel="stylesheet">
+  </head>
+
+  <body class="login">
+    {% load crispy_forms_tags %}
+    <div>
+      <a class="hiddenanchor" id="signup"></a>
+      <a class="hiddenanchor" id="signin"></a>
+
+      <div class="login_wrapper">
+        <div class="animate form login_form">
+          <section class="login_content">
+            <form method="POST" action="">                          
+              {% csrf_token %} 
+              <h1>Iniciar sesión</h1>
+              <div>
+                {{ form.username | as_crispy_field }} 
+              </div>
+              <div>
+                {{ form.password | as_crispy_field }}  
+              </div>
+              <div>
+                <button class="btn btn-success btn-block"> 
+                  Ingresar </button>    
+              </div>
+
+              <div class="clearfix"></div>
+
+              <div class="separator">
+                {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags}}">
+                    {{message}}
+                    </div>
+                {% endfor %}
+            {% endif%}
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div>
+                  <h1><i class="fa fa-cutlery"></i> Rafita</h1>
+                </div>
+              </div>
+            </form>
+          </section>
+        </div>
+
+
+      </div>
+    </div>
+  </body>
+</html>

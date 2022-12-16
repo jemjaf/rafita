@@ -1,0 +1,98 @@
+{% extends "plantilla.html" %}
+{% load static %}
+{% block title %}
+Reporte de pedidos
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card card-outline card-info mt-3">
+        <div class="card-header">
+            <h1 class="card-title">REPORTE DE PEDIDOS</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <form action="" method="GET">
+                        <div class="col-md-4 xdisplay_inputx form-group has-feedback">
+                            <input type="text" name="buscarInicio" class="form-control has-feedback-left" id="single_cal1" aria-describedby="inputSuccess2Status">
+                            <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                            <span id="inputSuccess2Status" class="sr-only">(success)</span>
+                          </div>                
+                          <div class="col-md-4 xdisplay_inputx form-group has-feedback">
+                            <input type="text" name="buscarFin" class="form-control has-feedback-left" id="single_cal2" aria-describedby="inputSuccess2Status">
+                            <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                            <span id="inputSuccess2Status" class="sr-only">(success)</span>
+                          </div>    
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary"><i class="fa fa-search"></i></button>
+                        </span>
+                </form>
+            </div>
+        </div> 
+        <div class="x_content">
+            <div class="row">
+                <div class="col-md-7">
+            
+                    <canvas id="pie-chart"></canvas>
+            </div>
+        
+        <div class="col-md-5">
+            <h3>Detalle del reporte:</h3>
+            <table id="tablasubfamilias" class="table table-striped mt-4" style="width:100%">
+                <thead class="table table-striped projects">
+                    <tr>
+                        <th><center>PLATO</center></th>
+                        <th><center>VENTAS REALIZADAS</center></th>
+                    </tr>
+                </thead>
+                {% if platos %}
+                    {% for p in platos %}
+                    <tr>
+
+                        <td><center>{{ p.plato__nombre }}</center></td>
+                        <td><center>{{ p.total }}</center></td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                <tr style="text-align: center;">
+                    <td colspan="6">
+                        <p>No hay Registros</p>
+                    </td>
+                </tr>
+                {% endif %}
+            </table>
+
+        </div>
+        </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+    var config = {
+      type: 'pie',
+      data: {
+        datasets: [{
+          data: {{ data|safe }},
+          label: 'Platos'
+        }],
+        labels: {{ labels|safe }}
+      },
+      options: {
+        responsive: true
+      }
+    };
+
+    window.onload = function() {
+      var ctx = document.getElementById('pie-chart').getContext('2d');
+      window.myPie = new Chart(ctx, config);
+    };
+
+  </script>
+{% endblock %}

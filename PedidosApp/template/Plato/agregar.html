@@ -1,0 +1,96 @@
+{% extends "plantilla.html" %}
+{% load static %}
+{% block title %}
+Nuevo Plato
+{% endblock %}
+{% block content %}
+    {% load crispy_forms_tags %}
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h1>AGREGAR PLATO</h1>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form | crispy }}
+                <h5>Ingredientes</h5>
+                <div class="row">
+                <div class="col-xs-12">
+                    <select name="idinsumo" id="idinsumo" class="form-control" onchange="agregar();">
+                        <option selected>Seleccione un insumo</option>
+                        {% for ins in insumos %}
+                            <option value="{{ ins.id }}_{{ ins.descripcion }}_{{ ins.precio }}_{{ ins.unidad_medida }}">{{ ins.descripcion }}</option>
+                        {% endfor %}	
+                    </select>
+                </div>	</div>
+                <div class="row mt-3">
+                <div class="col-xs-12 my-3">
+                    <table id="detalle" class="table table-condensed table-bordred table-striped my-3">
+                        <tr>
+                            <td>Insumo</td>
+                            <td>Precio</td>
+                            <td>Unidad de medida</td>
+                            <td>Cantidad</td>
+                            <td>Accion</td>
+                        </tr>
+                    </table>
+                </div></div>
+                <div class="d-flex justify-content-end">
+                    <a href="{% url 'listarplato' %}" class="btn btn-secondary">Cancelar</a>
+                    &nbsp;
+                    <button type="submit" class="btn btn-primary" id="grabarc">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+<script type="text/javascript">
+	var indice=0;
+	let listai=[];
+	function agregar()
+	{
+		
+        if (document.getElementById('idinsumo').selectedIndex != 0) {
+            datosinsumo=document.getElementById('idinsumo').value.split('_');
+                if(!listai.includes(datosinsumo[0])) {
+                listai.push(datosinsumo[0]);
+                fila='<tr id="fila'+indice+'"><td id="micelda'+indice+'"><input type="hidden" name="idinsumos[]" value="'+datosinsumo[0]+'">'+datosinsumo[1]+'</td><td>'+
+                    datosinsumo[2]+'</td><td>'+datosinsumo[3]+'</td><td><input style="width:50px;" name="cantidad[]" type="number" value="1" min="1" pattern="^[0-9]"></td><td><a href="#" class="btn" onclick="quitar('+indice+','+datosinsumo[0]+')">Quitar</a></td></tr>';
+                $('#detalle').append(fila);	
+                indice++;	
+            }
+        }
+
+	}	
+
+	function actualizar() {
+		let tipo = document.getElementById("TipoPedido").value;
+		var mesa = document.getElementById("mesa");
+		var direccion = document.getElementById("direccion");
+		if (tipo == 'Delivery') {
+			mesa.style.display="none";
+			direccion.style.display="block";
+			document.getElementById("mesa").required = false;
+			document.getElementById("direccion").required = true;
+		} else {
+			mesa.style.display="block";
+			direccion.style.display="none";
+			document.getElementById("mesa").required = true;
+			document.getElementById("direccion").required = false;
+		}
+	}
+
+	function quitar(item, idinsumo)
+	{
+		var indice = item.toString();
+        var ideliminar = listai.indexOf(idinsumo.toString());
+        listai.splice(ideliminar, 1);
+		$('#fila'+item).remove();
+	}
+
+</script>
+
+{% endblock %}

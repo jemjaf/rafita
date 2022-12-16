@@ -1,0 +1,25 @@
+{% extends "plantilla.html" %}
+{% block title %}
+Nueva Mesa
+{% endblock %}
+{% block content %}
+    {% load crispy_forms_tags %}
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h1>AGREGAR MESA</h1>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form | crispy }}
+                <div class="d-flex justify-content-end">
+                    <a href="{% url 'listarmesa' %}" class="btn btn-secondary">Cancelar</a>
+                    &nbsp;
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

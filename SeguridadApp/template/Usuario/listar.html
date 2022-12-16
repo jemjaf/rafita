@@ -1,0 +1,149 @@
+{% extends "plantilla.html" %}
+{% block title %}
+Usuario
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="card card-outline card-info mt-3">
+        <div class="card-header">
+            <h1 class="card-title">LISTADO DE USUARIOS</h1>
+            {% if perms.auth.add_user %}
+            <a href="{% url 'agregarusuario' %}" class='btn btn-primary btn-add'><i class='fa fa-plus'></i> NUEVO</a>
+            {% endif %}
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 pull-right">
+                <form action="" method="GET">
+                    <div class="input-group">
+                        <input type="text" name="buscar" id="buscar" class="form-control" autofocus placeholder="Buscar" value="">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div> 
+        <div class="x_content">
+            <table class="table table-striped projects">
+                <table id="tablasubfamilias" class="table table-striped mt-4" style="width:100%">
+                    <thead class="table table-striped projects">
+                        <tr>
+                            <th><center>CODIGO</center></th>
+                            <th><center>USUARIO</center></th>
+                            <th><center>NOMBRES</center></th>
+                            <th><center>APELLIDOS</center></th>
+                            <th><center>EMAIL</center></th>
+                            <th><center>GRUPO</center></th>
+                            <th><center>ÚLTIMO ACCESO</center></th>
+                            <th><center>OPCIONES</center></th>
+                        </tr>
+                    </thead>
+                    {% if usuario %}
+                        {% for itemusuario in usuario %}
+                        <tr>
+                            <td><center>{{ itemusuario.id }}</center></td>
+                            <td><center>{{ itemusuario.username }}</center></td>
+                            <td><center>{{ itemusuario.first_name }}</center></td>
+                            <td><center>{{ itemusuario.last_name }}</center></td>
+                            <td><center>{{ itemusuario.email }}</center></td>
+                            <td><center>{{ itemusuario.groups.all.0 }}</center></td>
+                            <td><center>{{ itemusuario.last_login }}</center></td>
+                            <td style="text-align: center;">
+                                {% if perms.auth.change_user %}
+                                <a href="{% url 'editarusuario' itemusuario.id %}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> Editar</a>
+                                {% endif %}
+                                {% if perms.auth.delete_user %}
+                                <a href="#" onclick="eliminarUsuario('{{itemusuario.id}}','{{itemusuario.username}}')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Eliminar</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                    <tr style="text-align: center;">
+                        <td colspan="6">
+                            <p>No hay Registros</p>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </table>
+                <div class="row mt-3 justify-content-center">
+                    <nav>
+                        <ul class="pagination">
+                            {% if usuario.has_previous %}
+                            <li class="page-item">
+                            <a href="?page=1" class="page-link">1</a>
+                            </li>
+                            {% if pagina_actual > 2 %}
+                                {% if pagina_actual > 3 %}
+                                    {% if pagina_actual > 4 %}
+                                    <li>
+                                    <a href="?page={{ pagina_actual | add:-3}}" class="page-link">{{ pagina_actual | add:-3 }}</a>
+                                    </li>
+                                    {% endif %}
+                                <li>
+                                <a href="?page={{ pagina_actual | add:-2}}" class="page-link">{{ pagina_actual | add:-2 }}</a>
+                                </li>
+                                {% endif %}
+                            <li>
+                            <a href="?page={{ pagina_actual | add:-1 }}" class="page-link">{{ pagina_actual | add:-1 }}</a>
+                            </li>
+                            {% endif %}
+                            {% endif %}
+
+                            <li class="page-item active">
+                                <a href="?page={{ pagina_actual }}" class="page-link">{{ pagina_actual }}</a>
+                            </li>
+
+                            {% if usuario.has_next %}
+                            {% if pagina_actual < usuario.paginator.num_pages %}
+
+                            <!-- -1 -->
+
+                            <li class="page-item">
+                                <a href="?page={{ pagina_actual | add:1}}" class="page-link">{{ pagina_actual | add:1}}</a>
+                            </li>
+                            <!-- -3 -->
+                                <li>
+                                <a href="?page={{ pagina_actual | add:2}}" class="page-link">{{ pagina_actual | add:2 }}</a>
+                                </li>
+                                <li>
+                                <a href="?page={{ pagina_actual | add:3}}" class="page-link">{{ pagina_actual | add:3 }}</a>
+                                </li>
+
+                            
+                            {% endif %}
+                                <li class="page-item">
+                                <a href="?page={{ usuario.paginator.num_pages }}" class="page-link">última</a>
+                                </li>
+                            {% endif %}
+                                    </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function eliminarUsuario(id,usuario){
+        Swal.fire({
+            title: '¿Desea eliminar el usuario?',
+            text: 'Codigo: '+ id + ' ' + 'Usuario: ' + usuario,
+            icon: 'error',
+            showCancelButton:true,
+            cancelButtonText:'No',
+            confirmButtonText:'Si',
+            confirmButtonColor:'#dc3545'
+        })
+        .then(function(result){
+            if(result.isConfirmed){
+                window.location.href="/usuario/eliminar/" + id + '/'
+            }
+        })
+    }
+</script>
+{% endblock %}

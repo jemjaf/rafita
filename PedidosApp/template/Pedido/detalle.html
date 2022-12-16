@@ -1,0 +1,103 @@
+{% extends "plantilla.html" %}
+{% load static %}
+{% block title %}
+Detalle del pedido
+{% endblock %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="container">
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.TipoPedido|as_crispy_field }}
+    {{ form.cliente|as_crispy_field }}
+    {% if pedido.TipoPedido == 'Salon' %}
+    {{ form.mesa|as_crispy_field }}
+    {% else %}
+    {{ form.direccion|as_crispy_field }}
+    {% endif %}
+    {% if perms.PedidosApp.change_pedido %}
+    <button type="submit" name="form" class="btn btn-primary">Editar</button>
+    {% endif %}
+  </form>
+<div>
+    <h3>Detalles del Pedido:</h3>
+</div>
+<table class="table">
+    <thead>
+      <tr class="table table-info">
+        <th scope="col">Plato</th>
+        <th scope="col">Cantidad</th>
+        <th scope="col">Precio</th>
+        <th scope="col">Total</th>
+        <th scope="col">Indicaciones</th>
+        {% if not pedido.pagado %}
+        <th scope="col">Opciones</th>
+        {% endif %}
+      </tr>
+    </thead>
+    <tbody>
+        {% for pla in platos %}
+      <tr>
+        <th scope="row">{{pla.plato}}</th>
+        <td>{{pla.cantidad}}</td>
+        <td>S/.{{pla.precio}}</td>
+        <td>S/.{{pla.total}}</td>
+        <td>{{pla.indicaciones}}</td>
+        {% if not pedido.pagado %}
+        <td>
+          {% if perms.PedidosApp.change_detallepedido %}
+          <a href="{% url 'editardetallepedido' pla.id %}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> Editar</a> 
+          {% endif %}
+          {% if perms.PedidosApp.delete_detallepedido %}
+          <a href="#" onclick="eliminarPlato('{{pla.id}}','{{pla.plato}}')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Eliminar</a></td>
+          {% endif %}
+          {% endif %}
+        {% endfor %}
+      </tr>
+    </tbody>
+  </table>
+  {% if perms.PedidosApp.add_detallepedido %}
+  {% if not pedido.pagado %}
+  <h3>Agregar plato</h3>
+  <form method="post" action = "{% url 'agregardetallepedido' idpedido %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ formDetalle | crispy }}
+    <div class="d-flex justify-content-end">
+        <button type="submit" name="formdetalle" class="btn btn-primary">Guardar</button>
+    </div>
+    
+</form>
+{% endif %}
+{% endif %}
+  <a href="{% url 'listarpedido' %}" class="btn btn-info btn-sm">Volver</a>
+{% if perms.CajaApp.view_comprobantepago %}
+{% if pedido.pagado %}
+<a href="{% url 'generarcomprobante' pedido.id %}" target="_blank" class="btn btn-primary btn-sm">Generar Comprobante</a>
+{% endif %}
+{% endif %}
+{% endblock %}
+
+{% block js %}
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function eliminarPlato(id,plato){
+        
+        Swal.fire({
+            title: '¿Desea eliminar el plato?',
+            text: 'Codigo: '+ id + ' ' + 'Plato: ' + plato,
+            icon: 'error',
+            showCancelButton:true,
+            cancelButtonText:'No',
+            confirmButtonText:'Si',
+            confirmButtonColor:'#dc3545'
+        })
+        .then(function(result){
+            if(result.isConfirmed){
+                window.location.href="/pedido/eliminarplato/" + id + '/'
+            }
+        })
+    }
+</script>
+
+{% endblock %}

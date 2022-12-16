@@ -1,0 +1,45 @@
+{% extends "plantilla.html" %}
+{% load static %}
+{% block title %}
+Detalle del plato
+{% endblock %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="container">
+    <h3>Detalles del plato: </h3>
+</div>
+<table class="table">
+    <thead>
+      <tr class="table table-info">
+        
+        <th scope="col">Insumo</th>
+        <th scope="col">Unidad de medida</th>
+        <th scope="col">Cantidad</th>
+        <th scope="col">Precio</th>
+        <th scope="col">Total</th>
+        <th scope="col">Proyección</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for item in insumos %}
+      <tr>
+        <th scope="row">{{item.insumo}}</th>
+        <td>{{item.insumo.unidad_medida}}</td>
+        <td>{{item.cantidad}}</td>
+        <td>S/.{{item.insumo.precio}}</td>
+        <td>S/.{{item.total}}</td>
+        <td>
+          {{item.proyeccion}}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div><h1>Total: {{total}}</h1></div>
+
+  <a href="{% url 'editarplato' idplato %}" class="btn btn-info btn-sm">Volver</a>
+{% endblock %}
+
+{% block js %}
+
+{% endblock %}

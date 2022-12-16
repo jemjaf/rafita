@@ -1,0 +1,183 @@
+{% extends "plantilla.html" %}
+
+{% block title %}
+Pedidos
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card card-outline card-info mt-3">
+        <div class="card-header">
+            <h1 class="card-title">LISTADO DE PEDIDOS</h1>
+            {% if perms.PedidosApp.add_pedido %}
+            <a href="{% url 'agregarpedido' %}" class='btn btn-primary btn-add'><i class='fa fa-plus'></i> NUEVO</a>
+            {% endif %}
+        </div>
+        <div class="row">
+            <div class="col-md-6 pull-right">
+                <form action="" method="GET">
+                        <div class="col-md-11 xdisplay_inputx form-group has-feedback">
+
+                            <input type="text" name="buscar" class="form-control has-feedback-left" id="single_cal1" aria-describedby="inputSuccess2Status">
+                            <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                            <span id="inputSuccess2Status" class="sr-only">(success)</span>
+                          </div>                
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary"><i class="fa fa-search"></i></button>
+                        </span>
+                </form>
+            </div>
+        </div> 
+        <div class="x_content">
+            <table class="table table-striped projects">
+                <table id="tablasubfamilias" class="table table-striped mt-4" style="width:100%">
+                    <thead class="table table-striped projects">
+                        <tr>
+                            <th><center>CODIGO</center></th>
+                            <th><center>CLIENTE</center></th>
+                            <th><center>FECHA</center></th>
+                            <th><center>TIPO DE PEDIDO</center></th>
+                            <th><center>MESA</center></th>
+                            <th><center>DIRECCIÓN</center></th>
+                            <th><center>ESTADO</center></th>
+                            <th><center>OPCIONES</center></th>
+                        </tr>
+                    </thead>
+                    {% if pedidos %}
+                        {% for itempedido in pedidos %}
+                        <tr>
+                            <td><center>{{ itempedido.id }}</center></td>
+                            <td><center>{{ itempedido.cliente }}</center></td>
+                            <td><center>{{ itempedido.Fecha }}</center></td>
+                            <td><center>{{ itempedido.TipoPedido }}</center></td>
+                            <td><center>
+                                {% if itempedido.TipoPedido == 'Salon' %}
+                                    {{itempedido.mesa}}
+                                {% endif %}
+                            </center></td>
+                            <td><center>
+                                {% if itempedido.TipoPedido == 'Delivery' %}
+                                    {{itempedido.direccion}}
+                                {% endif %}
+                            </center></td>
+                            <td><center>
+                                {% if itempedido.pagado %}
+                                    Pagado
+                                {% else %}
+                                    No pagado
+                                {% endif %}
+                            </center></td>
+                            <td style="text-align: center;">
+                                {% if perms.CajaApp.add_comprobantepago %}
+                                {% if not itempedido.pagado %}<a href="{% url 'pagarpedido' itempedido.id %}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i>Pagar</a> 
+                                {% endif %}
+                                {% endif %}
+                                {% if perms.PedidosApp.can_entregar_pedido %}
+                                {% if not itempedido.pagado %}
+                                {% if itempedido.TipoPedido == 'Delivery' %}
+                                {% if not itempedido.usuarioReparte %}
+                                <a href="{% url 'entregarpedido' itempedido.id %}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i>Entregar</a> 
+                                {% endif %}
+                                {% endif %}
+                                {% endif %}
+                                {% endif %}
+                                {% if perms.PedidosApp.view_detallepedido %}
+                                <a href="{% url 'editarpedido' itempedido.id %}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> Detalles</a>
+                                {% endif %}
+                                {% if perms.PedidosApp.delete_pedido %}
+                                <a href="#" onclick="eliminarPedido('{{itempedido.id}}','{{itempedido.cliente}}')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Anular</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                    <tr style="text-align: center;">
+                        <td colspan="6">
+                            <p>No hay Registros</p>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </table>
+                <div class="row mt-3 justify-content-center">
+                    <nav>
+                        <ul class="pagination">
+                            {% if pedidos.has_previous %}
+                            <li class="page-item">
+                            <a href="?page=1" class="page-link">1</a>
+                            </li>
+                            {% if pagina_actual > 2 %}
+                                {% if pagina_actual > 3 %}
+                                    {% if pagina_actual > 4 %}
+                                    <li>
+                                    <a href="?page={{ pagina_actual | add:-3}}" class="page-link">{{ pagina_actual | add:-3 }}</a>
+                                    </li>
+                                    {% endif %}
+                                <li>
+                                <a href="?page={{ pagina_actual | add:-2}}" class="page-link">{{ pagina_actual | add:-2 }}</a>
+                                </li>
+                                {% endif %}
+                            <li>
+                            <a href="?page={{ pagina_actual | add:-1 }}" class="page-link">{{ pagina_actual | add:-1 }}</a>
+                            </li>
+                            {% endif %}
+                            {% endif %}
+
+                            <li class="page-item active">
+                                <a href="?page={{ pagina_actual }}" class="page-link">{{ pagina_actual }}</a>
+                            </li>
+
+                            {% if pedidos.has_next %}
+                            {% if pagina_actual < pedidos.paginator.num_pages %}
+
+                            <!-- -1 -->
+
+                            <li class="page-item">
+                                <a href="?page={{ pagina_actual | add:1}}" class="page-link">{{ pagina_actual | add:1}}</a>
+                            </li>
+                            <!-- -3 -->
+                                <li>
+                                <a href="?page={{ pagina_actual | add:2}}" class="page-link">{{ pagina_actual | add:2 }}</a>
+                                </li>
+                                <li>
+                                <a href="?page={{ pagina_actual | add:3}}" class="page-link">{{ pagina_actual | add:3 }}</a>
+                                </li>
+
+                            
+                            {% endif %}
+                                <li class="page-item">
+                                <a href="?page={{ pedidos.paginator.num_pages }}" class="page-link">última</a>
+                                </li>
+                            {% endif %}
+                                    </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function eliminarPedido(id,cliente){
+        
+        Swal.fire({
+            title: '¿Desea eliminar el pedido?',
+            text: 'Codigo: '+ id + ' ' + 'Cliente: ' + cliente,
+            icon: 'error',
+            showCancelButton:true,
+            cancelButtonText:'No',
+            confirmButtonText:'Si',
+            confirmButtonColor:'#dc3545'
+        })
+        .then(function(result){
+            if(result.isConfirmed){
+                window.location.href="/pedido/eliminar/" + id + '/'
+            }
+        })
+    }
+</script>
+
+
+{% endblock %}

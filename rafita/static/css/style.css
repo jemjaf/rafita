@@ -1,0 +1,145 @@
+body { 
+  color: #000; 
+  font-family: 'Open Sans', sans-serif;
+  padding: 0px !important;
+  margin: 0px !important;
+  font-size:13px; 
+  direction: ltr;
+}
+.alert
+{
+  width: 300px;
+  position: fixed;
+  margin: auto;
+  bottom: 10px;
+  right: 10px;
+  z-index: 999999 !important;
+}
+
+.alerta{
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+
+.text-center{
+  text-align: center;
+}
+
+
+/***
+Tools
+***/
+.display-none,
+.display-hide {
+  display: none;
+}
+
+.no-space {
+  margin: 0px !important;
+  padding: 0px !important;
+}
+
+
+
+.border {
+  border: 1px solid red;
+}
+
+.inline {
+  display: inline;
+}
+
+
+/********************
+ GENERAL UI ELEMENTS 
+*********************/
+
+/***
+Icon stuff
+***/
+i.icon, a.icon {
+  color: #999;
+  margin-right: 5px;
+  font-weight: normal;
+  font-size: 13px;
+}
+
+i.icon-black {
+  color: #000 !important;
+}
+
+a.icon:hover {
+  text-decoration: none;
+  -webkit-transition: all 0.1s ease-in-out;
+  -moz-transition: all 0.1s ease-in-out;
+  -o-transition: all 0.1s ease-in-out;
+  -ms-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+  opacity: .4;
+  filter:alpha(opacity=40);
+}
+
+a.icon.huge i{
+  font-size: 16px !important;
+}
+
+i.big {
+  font-size: 20px;
+}
+
+i.warning {
+  color: #d12610;
+}
+
+i.critical {
+  color: #37b7f3;
+}
+
+i.normal {
+  color: #52e136;
+}
+
+/* input with left aligned icons */
+.input-icon {
+  position: relative;
+}
+
+
+.input-icon input {
+   padding-left: 33px !important;
+}
+
+.input-icon i {
+  color: #ccc;
+  display: block;
+  position: absolute;
+  margin: 11px 2px 4px 10px;
+  width: 16px;
+  height: 16px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.input-icon.right input {
+   padding-left: 12px !important;
+   padding-right: 33px !important;
+}
+
+.input-icon.right i {
+   right: 8px;
+   float: right;
+}
+
+.has-success .input-icon > i {
+  color: #468847;
+}
+
+.has-warning .input-icon > i {
+  color: #c09853;
+}
+
+.has-error .input-icon > i {
+  color: #b94a48;
+}
+

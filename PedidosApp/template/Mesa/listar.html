@@ -1,0 +1,90 @@
+{% extends "plantilla.html" %}
+{% load static %}
+{% block title %}
+Mesas
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card card-outline card-info mt-3">
+        <div class="card-header">
+            <h1 class="card-title">LISTADO DE MESAS</h1>
+            {% if perms.PedidosApp.add_mesa %}
+            <a href="{% url 'agregarmesa' %}" class='btn btn-primary btn-add'><i class='fa fa-plus'></i> NUEVO</a>
+            {% endif %}
+        </div>
+        <div class="row">
+
+        </div> 
+        <div class="x_content">
+            <div class="row">
+
+                {% for item in mesas %}
+                <div class="col-md-55">
+
+                    <div class="thumbnail">
+                      <div class="image view view-first">
+                        
+                        <img style="width: 100%; display: block;" src="{% if item.enUso %}{% static '/img/rojo.jpg' %}{% else %}{% static '/img/verde.jpg' %}{% endif %}" alt="image" />
+                        
+                        <div class="mask no-caption">
+                          <div class="tools tools-bottom">
+                            {% if perms.PedidosApp.liberar_mesa %}                      
+                            <a href="{% url 'liberarmesa' item.id %}"><i class="fa fa-link"></i></a>
+                            {% endif %}
+                            {% if perms.PedidosApp.change_mesa %}
+                            <a href="{% url 'editarmesa' item.id %}"><i class="fa fa-pencil"></i></a>
+                            {% endif %}
+                            {% if perms.PedidosApp.delete_mesa %}
+                            <a onclick="eliminarMesa('{{item.id}}','{{item.nombre}}')"><i class="fa fa-times"></i></a>
+                            {% endif %}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="caption">
+                        <p><strong>
+                          {% if not item.enUso %}
+                          <a href="{% url 'agregarpedido' %}?mesa={{ item.id }}">
+                          
+                            {% endif %}
+                          {{item.nombre}}</strong>
+                          {% if not item.enUso %}</a>{% endif %}
+                        </p>
+                        <p>{% if item.enUso %}
+                            En uso desde las {{item.horaUltimoUso.time|date:'H:i'}}
+                            {% else %}
+                            Libre
+                            {% endif %}</p>
+                      </div>
+                    </div>
+                    
+                  </div>
+
+              {% endfor %}
+            </div>
+            </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function eliminarMesa(id,nombre){
+        Swal.fire({
+            title: '¿Desea eliminar la mesa?',
+            text: 'Codigo: '+ id + ' ' + 'Nombre: ' + nombre,
+            icon: 'error',
+            showCancelButton:true,
+            cancelButtonText:'No',
+            confirmButtonText:'Si',
+            confirmButtonColor:'#dc3545'
+        })
+        .then(function(result){
+            if(result.isConfirmed){
+                window.location.href="/mesa/eliminar/" + id + '/'
+            }
+        })
+    }
+</script>
+{% endblock %}

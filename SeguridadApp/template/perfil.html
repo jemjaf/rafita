@@ -1,0 +1,83 @@
+{% extends "plantilla.html" %}
+{% load static %}
+{% block title %}
+Rafita
+{% endblock %}
+
+{% block content %}
+            <div class="">
+              <div class="page-title">
+                <div class="title_left">
+                  <h3>Mi perfil</h3>
+                </div>
+  
+              </div>
+  
+              <div class="clearfix"></div>
+  
+              <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                  <div class="x_panel">
+                    <div class="x_title">
+                      <h2>Datos del usuario</h2>
+
+                      <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <b>Nombre Completo:</b><br>
+                        {{ user.first_name}} {{ user.last_name}}<br>
+                        <b>Correo:</b><br>
+                        {{ user.email}}   <br>
+                        <b>Tipo:</b><br>
+                        {{ user.groups.all.0}}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div class="x_panel">
+                      <div class="x_title">
+                        <h2>Cambiar contraseña</h2>
+  
+                        <div class="clearfix"></div>
+                      </div>
+                      <div class="x_content">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                        <div id="div_id_username" class="form-group"> 
+                            <label for="id_username" class=" requiredField">Contraseña actual
+                                <span class="asteriskField">*</span> </label> 
+                            <div> <input type="password" name="conActual" maxlength="150" autofocus="" class="textinput textInput form-control" required="" id="conActual">
+                            </div> </div>
+                            <div class="clearfix"></div>
+                            <div id="div_id_username" class="form-group"> 
+                                <label for="id_username" class=" requiredField">Nueva contraseña
+                                    <span class="asteriskField">*</span> </label> 
+                                <div> <input type="password" name="nuevaCon1" maxlength="150" class="textinput textInput form-control" required="" id="nuevaCon1">
+                                </div> </div>
+
+                                <div id="div_id_username" class="form-group"> 
+                                    <label for="id_username" class=" requiredField">Confirmar contraseña
+                                        <span class="asteriskField">*</span> </label> 
+                                    <div> <input type="password" name="nuevaCon2" maxlength="150" class="textinput textInput form-control" required="" id="nuevaCon2">
+                                    </div> </div>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            </form>
+                            {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags}}">
+                                {{message}}
+                                </div>
+                            {% endfor %}
+                        {% endif%}
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              <div class="row">
+                {% for n in p %}
+                <p>{{n}}</p>
+                {% endfor %}
+              </div>
+            </div>
+          <!-- /page content -->
+{% endblock %}

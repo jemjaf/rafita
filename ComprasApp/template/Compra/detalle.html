@@ -1,0 +1,88 @@
+{% extends "plantilla.html" %}
+{% load static %}
+{% block title %}
+Detalle de la compra
+{% endblock %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="container">
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form | crispy }}
+    {% if perms.ComprasApp.change_compra %}
+    <button type="submit" name="form" class="btn btn-primary">Editar</button>
+    {% endif %}
+  </form>
+<div>
+    <h3>Detalles de la compra:</h3>
+</div>
+<table class="table">
+    <thead>
+      <tr class="table table-info">
+        
+        <th scope="col">Insumo</th>
+        <th scope="col">Unidad de medida</th>
+        <th scope="col">Cantidad</th>
+        <th scope="col">Precio</th>
+        <th scope="col">Total</th>
+        <th scope="col">Opciones</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for item in insumos %}
+      <tr>
+        <th scope="row">{{item.insumo}}</th>
+        <td>{{item.insumo.unidad_medida}}</td>
+        <td>{{item.cantidad}}</td>
+        <td>S/.{{item.insumo.precio}}</td>
+        <td>S/.{{item.total}}</td>
+        <td>
+          {% if perms.ComprasApp.change_detallecompra %}
+          <a href="{% url 'editardetallecompra' item.id %}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> Editar</a> 
+          {% endif %}
+          {% if perms.ComprasApp.delete_detallecompra %}
+          <a href="#" onclick="eliminarInsumo('{{item.id}}','{{item.insumo}}')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Eliminar</a></td>
+          {% endif %}
+          {% endfor %}
+      </tr>
+    </tbody>
+  </table>
+  {% if perms.ComprasApp.add_detallecompra %}
+  <h3>Agregar Insumo</h3>
+  <form method="post" action = "{% url 'agregardetallecompra' idcompra %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ formDetalle | crispy }}
+    <div class="d-flex justify-content-end">
+        <button type="submit" name="formdetalle" class="btn btn-primary">Guardar</button>
+    </div>
+    
+</form>
+{% endif %}
+  <a href="{% url 'listarcompra' %}" class="btn btn-info btn-sm">Volver</a>
+{% endblock %}
+
+{% block js %}
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function eliminarInsumo(id,insumo){
+        
+        Swal.fire({
+            title: '¿Desea eliminar el insumo?',
+            text: 'Codigo: '+ id + ' ' + 'Insumo: ' + insumo,
+            icon: 'error',
+            showCancelButton:true,
+            cancelButtonText:'No',
+            confirmButtonText:'Si',
+            confirmButtonColor:'#dc3545'
+        })
+        .then(function(result){
+            if(result.isConfirmed){
+                window.location.href="/compra/eliminarinsumo/" + id + '/'
+            }
+        })
+    }
+</script>
+
+
+{% endblock %}

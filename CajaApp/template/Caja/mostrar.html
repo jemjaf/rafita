@@ -1,0 +1,57 @@
+{% extends "plantilla.html" %}
+{% block title %}
+Caja
+{% endblock %}
+{% block content %}
+    {% load crispy_forms_tags %}
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h1>Caja</h1>
+        </div>
+        <div class="card-body">
+            {% if apertura %}
+            <div class="form-group">
+                <label class="">Cajero:</label> 
+                <div><input type="text" value="{{apertura.cajero}}" class="textinput textInput form-control" disabled></div>
+            </div>
+            <div class="form-group">
+                <label class="">Fecha de apertura:</label> 
+                <div><input type="text" value="{{apertura.fechaInicio}}" class="textinput textInput form-control" disabled></div>
+            </div>
+            <div class="form-group">
+                <label class="">Importe inicial:</label> 
+                <div><input type="text" value="{{apertura.importeInicial}}" class="textinput textInput form-control" disabled></div>
+            </div>
+            <div class="form-group">
+                <label class="">Ventas:</label> 
+                <div><input type="text" value="{{apertura.importe}}" class="textinput textInput form-control" disabled></div>
+            </div>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label class="">Importe final:</label> 
+                        <div><input type="number" name = "importefinal" class="textinput textInput form-control" required></div>
+                    </div>
+            
+                    <div class="d-flex justify-content-end">
+                        &nbsp;
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            {% else %}
+            <h3>Abrir caja</h3>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form | crispy }}
+                    <div class="d-flex justify-content-end">
+                        &nbsp;
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}

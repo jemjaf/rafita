@@ -1,0 +1,167 @@
+Usuarios
+cuentaCaja
+cuentaCocina
+cuentaAdmin
+cuentaMozo
+cuentaRepartidor
+Contraseña: GRUPOis1
+
+SUPERUSUARIO
+admin
+1234
+
+#PERMISOS:
+#ROL CAJA
+group = Group.objects.get(name='Caja')    
+
+#TODO APERTURACAJA
+#VER COMPROBANTES
+#VER PEDIDOS (PAGAR)
+
+content_type = ContentType.objects.get(app_label='CajaApp', model='AperturaCaja')
+perms = Permission.objects.filter(content_type=content_type)
+for p in perms:
+	group.permissions.add(p)
+
+p = Permission.objects.get(codename='view_comprobantepago')
+group.permissions.add(p)
+p = Permission.objects.get(codename='add_comprobantepago')
+group.permissions.add(p)
+p = Permission.objects.get(codename='view_pedido')
+group.permissions.add(p)
+p = Permission.objects.get(codename='view_detallepedido')
+group.permissions.add(p)
+
+#ROL COCINA
+group = Group.objects.get(name='Cocina')   
+
+#VER, AÑADIR COMPRAS Y AGREGAR DETALLES
+#VER INSUMOS
+#VER PEDIDOS
+p = Permission.objects.get(codename='view_compra')
+group.permissions.add(p) 
+p = Permission.objects.get(codename='add_compra')
+group.permissions.add(p)
+p = Permission.objects.get(codename='change_compra')
+group.permissions.add(p)  
+p = Permission.objects.get(codename='view_detallecompra')
+group.permissions.add(p) 
+p = Permission.objects.get(codename='add_detallecompra')
+group.permissions.add(p) 
+p = Permission.objects.get(codename='view_insumo')
+group.permissions.add(p) 
+p = Permission.objects.get(codename='view_pedido')
+group.permissions.add(p) 
+p = Permission.objects.get(codename='view_detallepedido')
+group.permissions.add(p) 
+
+#ROL REPARTIDOR
+group = Group.objects.get(name='Repartidor') 
+
+#VER PEDIDOS
+#MARCAR PEDIDOS COMO AGREGADOS
+p = Permission.objects.get(codename='view_pedido')
+group.permissions.add(p) 
+p = Permission.objects.get(codename='can_entregar_pedido')
+group.permissions.add(p) 
+p = Permission.objects.get(codename='view_detallepedido')
+group.permissions.add(p) 
+
+#ROL MOZO
+group = Group.objects.get(name='Mozo')
+
+#TODO PEDIDOS Y DETALLES
+#VER PLATOS
+#VER Y LIBERAR MESAS
+#TODO CLIENTES
+p = Permission.objects.get(codename='view_pedido')
+group.permissions.add(p)
+p = Permission.objects.get(codename='add_pedido')
+group.permissions.add(p)
+p = Permission.objects.get(codename='change_pedido')
+group.permissions.add(p)
+p = Permission.objects.get(codename='delete_pedido')
+group.permissions.add(p)
+
+content_type = ContentType.objects.get(app_label='PedidosApp', model='DetallePedido')
+perms = Permission.objects.filter(content_type=content_type)
+for p in perms:
+	group.permissions.add(p)
+
+
+p = Permission.objects.get(codename='view_plato')
+group.permissions.add(p)
+p = Permission.objects.get(codename='view_mesa')
+group.permissions.add(p)
+p = Permission.objects.get(codename='liberar_mesa')
+group.permissions.add(p)
+
+content_type = ContentType.objects.get(app_label='PedidosApp', model='Cliente')
+perms = Permission.objects.filter(content_type=content_type)
+for p in perms:
+	group.permissions.add(p)
+
+#ROL ADMINISTRADOR
+group = Group.objects.get(name='Administrador')
+
+#TODO PLATOS
+#TODO PROVEEDORES
+#TODO INSUMOS
+#TODO MESAS
+#TODO USUARIOS
+#VER Y ANULAR COMPRAS
+#ANULAR COMPROBANTES
+content_type = ContentType.objects.get(app_label='PedidosApp', model='Plato')
+perms = Permission.objects.filter(content_type=content_type)
+for p in perms:
+	group.permissions.add(p)
+
+content_type = ContentType.objects.get(app_label='PedidosApp', model='DetallePlato')
+perms = Permission.objects.filter(content_type=content_type)
+for p in perms:
+	group.permissions.add(p)
+
+content_type = ContentType.objects.get(app_label='ComprasApp', model='Proveedor')
+perms = Permission.objects.filter(content_type=content_type)
+for p in perms:
+	group.permissions.add(p)
+
+content_type = ContentType.objects.get(app_label='ComprasApp', model='Insumo')
+perms = Permission.objects.filter(content_type=content_type)
+for p in perms:
+	group.permissions.add(p)
+
+content_type = ContentType.objects.get(app_label='PedidosApp', model='Mesa')
+perms = Permission.objects.filter(content_type=content_type)
+for p in perms:
+	group.permissions.add(p)
+
+content_type = ContentType.objects.get(app_label='Auth', model='User')
+perms = Permission.objects.filter(content_type=content_type)
+for p in perms:
+	group.permissions.add(p)
+
+p = Permission.objects.get(codename='view_pedido')
+group.permissions.add(p)
+
+p = Permission.objects.get(codename='view_compra')
+group.permissions.add(p)
+
+p = Permission.objects.get(codename='view_detallecompra')
+group.permissions.add(p)
+
+p = Permission.objects.get(codename='delete_compra')
+group.permissions.add(p)
+
+p = Permission.objects.get(codename='view_detallepedido')
+group.permissions.add(p)
+
+p = Permission.objects.get(codename='view_comprobantepago')
+group.permissions.add(p)
+
+p = Permission.objects.get(codename='delete_comprobantepago')
+group.permissions.add(p)
+
+
+
+

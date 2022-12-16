@@ -1,0 +1,150 @@
+{% extends "plantilla.html" %}
+
+{% block title %}
+Compras
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card card-outline card-info mt-3">
+        <div class="card-header">
+            <h1 class="card-title">LISTADO DE COMPRAS</h1>
+            {% if perms.ComprasApp.add_compra %}
+            <a href="{% url 'agregarcompra' %}" class='btn btn-primary btn-add'><i class='fa fa-plus'></i> NUEVO</a>
+            {% endif %}
+        </div>
+        <div class="row">
+            <div class="col-md-6 pull-right">
+                <form action="" method="GET">
+                    <div class="col-md-11 xdisplay_inputx form-group has-feedback">
+
+                        <input type="text" name="buscar" class="form-control has-feedback-left" id="single_cal1" aria-describedby="inputSuccess2Status">
+                        <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                        <span id="inputSuccess2Status" class="sr-only">(success)</span>
+                      </div>                
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary"><i class="fa fa-search"></i></button>
+                    </span>
+            </form>
+            </div>
+        </div> 
+        <div class="x_content">
+            <table class="table table-striped projects">
+                <table id="tablasubfamilias" class="table table-striped mt-4" style="width:100%">
+                    <thead class="table table-striped projects">
+                        <tr>
+                            <th><center>CODIGO</center></th>
+                            <th><center>USUARIO</center></th>
+                            <th><center>FECHA</center></th>
+                            <th><center>MOTIVO</center></th>
+                            <th><center>OPCIONES</center></th>
+                        </tr>
+                    </thead>
+                    {% if compras %}
+                        {% for item in compras %}
+                        <tr>
+                            <td><center>{{ item.id }}</center></td>
+                            <td><center>{{ item.usuarioCompra }}</center></td>
+                            <td><center>{{ item.fecha }}</center></td>
+                            <td><center>{{ item.motivo }}</center></td>
+                            <td style="text-align: center;">
+                                {% if perms.ComprasApp.view_detallecompra %}
+                                <a href="{% url 'editarcompra' item.id %}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> Detalles</a>
+                                {% endif %}
+                                {% if perms.ComprasApp.delete_compra %}
+                                <a href="#" onclick="eliminarCompra('{{item.id}}','{{item.fecha}}')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Anular</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                    <tr style="text-align: center;">
+                        <td colspan="6">
+                            <p>No hay Registros</p>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </table>
+                <div class="row mt-3 justify-content-center">
+                    <nav>
+                        <ul class="pagination">
+                            {% if compra.has_previous %}
+                            <li class="page-item">
+                            <a href="?page=1" class="page-link">1</a>
+                            </li>
+                            {% if pagina_actual > 2 %}
+                                {% if pagina_actual > 3 %}
+                                    {% if pagina_actual > 4 %}
+                                    <li>
+                                    <a href="?page={{ pagina_actual | add:-3}}" class="page-link">{{ pagina_actual | add:-3 }}</a>
+                                    </li>
+                                    {% endif %}
+                                <li>
+                                <a href="?page={{ pagina_actual | add:-2}}" class="page-link">{{ pagina_actual | add:-2 }}</a>
+                                </li>
+                                {% endif %}
+                            <li>
+                            <a href="?page={{ pagina_actual | add:-1 }}" class="page-link">{{ pagina_actual | add:-1 }}</a>
+                            </li>
+                            {% endif %}
+                            {% endif %}
+
+                            <li class="page-item active">
+                                <a href="?page={{ pagina_actual }}" class="page-link">{{ pagina_actual }}</a>
+                            </li>
+
+                            {% if compra.has_next %}
+                            {% if pagina_actual < compra.paginator.num_pages %}
+
+                            <!-- -1 -->
+
+                            <li class="page-item">
+                                <a href="?page={{ pagina_actual | add:1}}" class="page-link">{{ pagina_actual | add:1}}</a>
+                            </li>
+                            <!-- -3 -->
+                                <li>
+                                <a href="?page={{ pagina_actual | add:2}}" class="page-link">{{ pagina_actual | add:2 }}</a>
+                                </li>
+                                <li>
+                                <a href="?page={{ pagina_actual | add:3}}" class="page-link">{{ pagina_actual | add:3 }}</a>
+                                </li>
+
+                            
+                            {% endif %}
+                                <li class="page-item">
+                                <a href="?page={{ compra.paginator.num_pages }}" class="page-link">última</a>
+                                </li>
+                            {% endif %}
+                                    </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function eliminarCompra(id,fecha){
+        
+        Swal.fire({
+            title: '¿Desea eliminar la compra?',
+            text: 'Codigo: '+ id + ' ' + 'Fecha: ' + fecha,
+            icon: 'error',
+            showCancelButton:true,
+            cancelButtonText:'No',
+            confirmButtonText:'Si',
+            confirmButtonColor:'#dc3545'
+        })
+        .then(function(result){
+            if(result.isConfirmed){
+                window.location.href="/compra/eliminar/" + id + '/'
+            }
+        })
+    }
+</script>
+
+
+{% endblock %}

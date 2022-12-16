@@ -1,0 +1,150 @@
+{% extends "plantilla.html" %}
+
+{% block title %}
+Proveedor
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card card-outline card-info mt-3">
+        <div class="card-header">
+            <h1 class="card-title">LISTADO DE PROVEEDORES</h1>
+            {% if perms.ComprasApp.add_proveedor %}
+            <a href="{% url 'agregarproveedor' %}" class='btn btn-primary btn-add'><i class='fa fa-plus'></i> NUEVO</a>
+            {% endif %}
+        </div>
+        <div class="row">
+            <div class="col-md-6 pull-right">
+                <form action="" method="GET">
+                    <div class="input-group">
+                        <input type="text" name="buscar" id="buscar" class="form-control" autofocus placeholder="Buscar" value="">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div> 
+        <div class="x_content">
+            <table class="table table-striped projects">
+                <table id="tablasubfamilias" class="table table-striped mt-4" style="width:100%">
+                    <thead class="table table-striped projects">
+                        <tr>
+                            <th><center>CODIGO</center></th>
+                            <th><center>RUC</center></th>
+                            <th><center>RAZON SOCIAL</center></th>
+                            <th><center>DIRECCION</center></th>
+                            <th><center>TELÉFONO</center></th>
+                            <th><center>DNI REPRESENTANTE</center></th>
+                            <th><center>OPCIONES</center></th>
+                        </tr>
+                    </thead>
+                    {% if proveedor %}
+                        {% for item in proveedor %}
+                        <tr>
+                            <td><center>{{ item.id }}</center></td>
+                            <td><center>{{ item.RUC}}</center></td>
+                            <td><center>{{ item.razon_social}}</center></td>
+                            <td><center>{{ item.direccion}}</center></td>
+                            <td><center>{{ item.telefono}}</center></td>
+                            <td><center>{{ item.DNI_representante}}</center></td>
+                            <td style="text-align: center;">
+                                {% if perms.ComprasApp.change_proveedor %}
+                                <a href="{% url 'editarproveedor' item.id %}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> Editar</a>
+                                {% endif %}
+                                {% if perms.ComprasApp.delete_proveedor %}
+                                <a href="#" onclick="eliminarProveedor('{{item.id}}','{{ item.razon_social}}')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Eliminar</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                    <tr style="text-align: center;">
+                        <td colspan="6">
+                            <p>No hay Registros</p>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </table>
+                <div class="row mt-3 justify-content-center">
+                    <nav>
+                        <ul class="pagination">
+                            {% if proveedor.has_previous %}
+                            <li class="page-item">
+                            <a href="?page=1" class="page-link">1</a>
+                            </li>
+                            {% if pagina_actual > 2 %}
+                                {% if pagina_actual > 3 %}
+                                    {% if pagina_actual > 4 %}
+                                    <li>
+                                    <a href="?page={{ pagina_actual | add:-3}}" class="page-link">{{ pagina_actual | add:-3 }}</a>
+                                    </li>
+                                    {% endif %}
+                                <li>
+                                <a href="?page={{ pagina_actual | add:-2}}" class="page-link">{{ pagina_actual | add:-2 }}</a>
+                                </li>
+                                {% endif %}
+                            <li>
+                            <a href="?page={{ pagina_actual | add:-1 }}" class="page-link">{{ pagina_actual | add:-1 }}</a>
+                            </li>
+                            {% endif %}
+                            {% endif %}
+
+                            <li class="page-item active">
+                                <a href="?page={{ pagina_actual }}" class="page-link">{{ pagina_actual }}</a>
+                            </li>
+
+                            {% if proveedor.has_next %}
+                            {% if pagina_actual < proveedor.paginator.num_pages %}
+
+                            <!-- -1 -->
+
+                            <li class="page-item">
+                                <a href="?page={{ pagina_actual | add:1}}" class="page-link">{{ pagina_actual | add:1}}</a>
+                            </li>
+                            <!-- -3 -->
+                                <li>
+                                <a href="?page={{ pagina_actual | add:2}}" class="page-link">{{ pagina_actual | add:2 }}</a>
+                                </li>
+                                <li>
+                                <a href="?page={{ pagina_actual | add:3}}" class="page-link">{{ pagina_actual | add:3 }}</a>
+                                </li>
+
+                            
+                            {% endif %}
+                                <li class="page-item">
+                                <a href="?page={{ proveedor.paginator.num_pages }}" class="page-link">última</a>
+                                </li>
+                            {% endif %}
+                                    </ul>
+                    </nav>
+                </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function eliminarProveedor(id,razon_social){
+        Swal.fire({
+            title: '¿Desea eliminar el proveedor?',
+            text: 'Codigo: '+ id + ' ' + 'Nombre: ' + razon_social,
+            icon: 'error',
+            showCancelButton:true,
+            cancelButtonText:'No',
+            confirmButtonText:'Si',
+            confirmButtonColor:'#dc3545'
+        })
+        .then(function(result){
+            if(result.isConfirmed){
+                window.location.href="/proveedor/eliminar/" + id + '/'
+            }
+        })
+    }
+</script>
+{% endblock %}

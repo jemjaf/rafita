@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %} {% endblock %}</title>
+    <!-- Bootstrap -->
+    <link href="{% static '/vendors/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="{% static '/vendors/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="{% static '/vendors/nprogress/nprogress.css' %}" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="{% static '/vendors/iCheck/skins/flat/green.css' %}" rel="stylesheet">
+	
+    <!-- bootstrap-progressbar -->
+    <link href="{% static '/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css' %}" rel="stylesheet">
+    <!-- JQVMap -->
+    <link href="{% static '/vendors/jqvmap/dist/jqvmap.min.css' %}" rel="stylesheet"/>
+    <!-- bootstrap-daterangepicker -->
+    <link href="{% static '/vendors/bootstrap-daterangepicker/daterangepicker.css' %}" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="{% static '/build/css/custom.min.css' %}" rel="stylesheet">
+
+  </head>
+
+  <body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+        <div class="col-md-3 left_col">
+          <div class="left_col scroll-view">
+            <div class="navbar nav_title" style="border: 0;">
+              <a href="{% url 'home' %}" class="site_title"><i class="fa fa-cutlery"></i> <span>RAFITA</span></a>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <!-- menu profile quick info -->
+            <!--<div class="profile clearfix">
+              <div class="profile_pic">
+                <img src="{% static 'images/img.jpg' %}" alt="..." class="img-circle profile_img">
+              </div>
+              <div class="profile_info">
+                <h3>Bienvenido</h3>
+              </div>
+            </div>
+             /menu profile quick info -->
+
+            <br />
+
+            <!-- sidebar menu -->
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+              <div class="menu_section">
+                <ul class="nav side-menu">
+                  <li><a href="{% url 'perfil' %}"><i class="fa fa-cog"></i> Perfil</a> </li>
+                  {% if perms.auth.view_user %}
+                  <li><a href="{% url 'listarusuario' %}"><i class="fa fa-home"></i> Usuarios</a> 
+                  </li>
+                  {% endif %}
+                  {% if perms.PedidosApp %}
+                  <li><a><i class="fa fa-home"></i> Pedidos <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      {% if perms.PedidosApp.view_pedido %}
+                      <li><a href="{% url 'listarpedido' %}">Pedidos</a></li>
+                        {% endif %}
+                      {% if perms.PedidosApp.view_cliente %}
+                      <li><a href="{% url 'listarcliente' %}">Clientes</a></li>
+                      {% endif %}
+                      {% if perms.PedidosApp.view_plato %}
+                      <li><a href="{% url 'listarplato' %}">Platos</a></li>
+                      {% endif %}
+                      {% if perms.PedidosApp.view_mesa %}
+                      <li><a href="{% url 'listarmesa' %}">Mesas</a></li>
+                      {% endif %}
+                      {% if perms.PedidosApp.view_pedido %}
+                      <li><a href="{% url 'verreportepedidos' %}">Reporte de pedidos</a></li>
+                      {% endif %}
+                    </ul>
+                  </li>
+                  {% endif %}
+                  {% if perms.ComprasApp %}
+                  <li><a><i class="fa fa-home"></i> Compras <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      {% if perms.ComprasApp.view_compra %}
+                      <li><a href="{% url 'listarcompra' %}">Compras</a></li>
+                      {% endif %}
+                      {% if perms.ComprasApp.view_insumo %}
+                      <li><a href="{% url 'listarinsumo' %}">Insumos</a></li>
+                      {% endif %}
+                      {% if perms.ComprasApp.view_proveedor %}
+                      <li><a href="{% url 'listarproveedor' %}">Proveedores</a></li>
+                      {% endif %}
+                    </ul>
+                  </li>
+                  {% endif %}
+                  {% if perms.CajaApp %}
+                  <li><a><i class="fa fa-home"></i> Caja <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      {% if perms.CajaApp.view_aperturacaja %}
+                      <li><a href="{% url 'mostrarcaja' %}">Caja</a></li>
+                      {% endif %}
+                      {% if perms.CajaApp.view_comprobantepago %}
+                      <li><a href="{% url 'listarcomprobante' %}">Comprobantes</a></li>
+                      {% endif %}
+                    </ul>
+                  </li>
+                  {% endif %}
+                </ul>
+              </div>
+
+            </div>
+            <!-- /sidebar menu -->
+
+            <!-- /menu footer buttons -->
+            <div class="sidebar-footer hidden-small">
+              <a data-toggle="tooltip" data-placement="top" title="Logout" href="{% url 'logout' %}">
+                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+              </a>
+            </div>
+            <!-- /menu footer buttons -->
+          </div>
+        </div>
+
+        <!-- top navigation -->
+        <div class="top_nav">
+          <div class="nav_menu">
+            <nav>
+              <div class="nav toggle">
+                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+              </div>
+
+            </nav>
+          </div>
+        </div>
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+            {% block content %}
+            {% endblock %}
+          
+        </div>
+        <!-- /page content -->
+
+
+        <!-- /footer content -->
+      </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="{% static '/vendors/jquery/dist/jquery.min.js' %}"></script>
+    <!-- Bootstrap -->
+    <script src="{% static '/vendors/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    <!-- FastClick -->
+    <script src="{% static '/vendors/fastclick/lib/fastclick.js' %}"></script>
+    <!-- NProgress -->
+    <script src="{% static '/vendors/nprogress/nprogress.js' %}"></script>
+    <!-- Chart.js -->
+    <script src="{% static '/vendors/Chart.js/dist/Chart.min.js' %}"></script>
+    <!-- gauge.js -->
+    <script src="{% static '/vendors/gauge.js/dist/gauge.min.js' %}"></script>
+    <!-- bootstrap-progressbar -->
+    <script src="{% static '/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js' %}"></script>
+    <!-- iCheck -->
+    <script src="{% static '/vendors/iCheck/icheck.min.js' %}"></script>
+    <!-- Skycons -->
+    <script src="{% static '/vendors/skycons/skycons.js' %}"></script>
+    <!-- Flot -->
+    <script src="{% static '/vendors/Flot/jquery.flot.js' %}"></script>
+    <script src="{% static '/vendors/Flot/jquery.flot.pie.js' %}"></script>
+    <script src="{% static '/vendors/Flot/jquery.flot.time.js' %}"></script>
+    <script src="{% static '/vendors/Flot/jquery.flot.stack.js' %}"></script>
+    <script src="{% static '/vendors/Flot/jquery.flot.resize.js' %}"></script>
+    <!-- Flot plugins -->
+    <script src="{% static '/vendors/flot.orderbars/js/jquery.flot.orderBars.js' %}"></script>
+    <script src="{% static '/vendors/flot-spline/js/jquery.flot.spline.min.js' %}"></script>
+    <script src="{% static '/vendors/flot.curvedlines/curvedLines.js' %}"></script>
+    <!-- DateJS -->
+    <script src="{% static '/vendors/DateJS/build/date.js' %}"></script>
+    <!-- JQVMap -->
+    <script src="{% static '/vendors/jqvmap/dist/jquery.vmap.js' %}"></script>
+    <script src="{% static '/vendors/jqvmap/dist/maps/jquery.vmap.world.js' %}"></script>
+    <script src="{% static '/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js' %}"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="{% static '/vendors/moment/min/moment.min.js' %}"></script>
+    <script src="{% static '/vendors/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
+
+    <!-- Custom Theme Scripts -->
+    <script src="{% static '/build/js/custom.min.js' %}"></script>
+    {% block js %} {% endblock %}
+  </body>
+</html>
