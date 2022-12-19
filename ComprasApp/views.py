@@ -27,7 +27,7 @@ def listarinsumo(request):
             Q(descripcion__icontains=queryset),estado=True
             ).distinct()
     context={'insumo':insumo,'pagina':pagina,'paginas':paginas,'pagina_actual':pagina_actual} 
-    return render(request,"insumo/listar.html",context)
+    return render(request,"Insumo/listar.html",context)
 
 @login_required
 @transaction.atomic
@@ -41,7 +41,7 @@ def agregarinsumo(request):
     else:
         form=InsumoForm()
     context={'form':form}
-    return render(request,"insumo/agregar.html",context)
+    return render(request,"Insumo/agregar.html",context)
 
 @login_required
 @transaction.atomic
@@ -56,7 +56,7 @@ def editarinsumo(request,id):
     else:
         form=InsumoForm(instance=insumo)
     context={"form":form}
-    return render(request,"insumo/editar.html",context)
+    return render(request,"Insumo/editar.html",context)
     
 @login_required
 @transaction.atomic
@@ -84,7 +84,7 @@ def listarproveedor(request):
             Q(razon_social__icontains=queryset), estado = True
             ).distinct()
     context={'proveedor': proveedor,'pagina':pagina,'paginas':paginas,'pagina_actual':pagina_actual}
-    return render(request,"proveedor/listar.html",context)
+    return render(request,"Proveedor/listar.html",context)
 
 @login_required
 @transaction.atomic
@@ -98,7 +98,7 @@ def agregarproveedor(request):
     else:
         form=ProveedorForm()
     context={'form':form}
-    return render(request,"proveedor/agregar.html",context)
+    return render(request,"Proveedor/agregar.html",context)
 
 @login_required
 @transaction.atomic
@@ -113,7 +113,7 @@ def editarproveedor(request,id):
     else:
         form=ProveedorForm(instance=proveedor)
     context={"form":form}
-    return render(request,"proveedor/editar.html",context)
+    return render(request,"Proveedor/editar.html",context)
 
 @login_required
 @transaction.atomic
@@ -139,7 +139,7 @@ def listarcompra(request):
         query = queryset.split("/")
         compras=Compra.objects.filter(fecha__year=query[2], fecha__month=query[0], fecha__day = query[1], estado = True).distinct()
     context={'compras':compras,'pagina':pagina,'paginas':paginas,'pagina_actual':pagina_actual}
-    return render(request,"compra/listar.html",context)
+    return render(request,"Compra/listar.html",context)
 
 @login_required
 @transaction.atomic
@@ -162,7 +162,7 @@ def agregarcompra(request):
         return redirect('listarcompra')
     insumos = Insumo.objects.filter(estado=True)
     context={'form':form, 'insumos': insumos}
-    return render(request,"compra/agregar.html",context)
+    return render(request,"Compra/agregar.html",context)
 
 @login_required
 @transaction.atomic
@@ -180,7 +180,7 @@ def editarcompra(request,id):
             return redirect('editarcompra', id)
     insumos = DetalleCompra.objects.filter(estado=True, compra = compra.id)
     context={'insumos':insumos, 'form':form, 'formDetalle':formDetalle, 'idcompra': id}
-    return render(request,"compra/detalle.html",context)
+    return render(request,"Compra/detalle.html",context)
 
 @login_required
 @transaction.atomic
@@ -209,7 +209,7 @@ def editardetallecompra(request,id):
     else:
         form=DetalleCompraForm(detalle.compra, instance=detalle)
     context={"form":form, "idcompra": idcompra}
-    return render(request,"compra/detalleeditar.html",context)
+    return render(request,"Compra/detalleeditar.html",context)
 
 @login_required
 @transaction.atomic

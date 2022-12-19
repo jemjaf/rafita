@@ -52,7 +52,7 @@ def listarusuario(request):
             Q(username__icontains=queryset),is_active=True
             ).distinct()
     context={'usuario':usuario,'pagina':pagina,'paginas':paginas,'pagina_actual':pagina_actual}
-    return render(request,"usuario/listar.html",context)
+    return render(request,"Usuario/listar.html",context)
 
 @login_required
 @permission_required('auth.add_user', raise_exception=True)
@@ -67,7 +67,7 @@ def agregarusuario(request):
     else:
         form=UserForm()
     context={'form':form}
-    return render(request,"usuario/agregar.html",context)
+    return render(request,"Usuario/agregar.html",context)
 
 @login_required
 @permission_required('auth.change_user', raise_exception=True)
@@ -84,7 +84,7 @@ def editarusuario(request,id):
     else:
         form=UserForm(instance=usuario)
     context={"form":form}
-    return render(request,"usuario/editar.html",context)
+    return render(request,"Usuario/editar.html",context)
 
 @login_required
 @permission_required('auth.delete_user', raise_exception=True)

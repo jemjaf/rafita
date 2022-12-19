@@ -28,7 +28,7 @@ def listarcliente(request):
             Q(id__icontains=queryset),estado=True
             ).distinct()
     context={'cliente':cliente,'pagina':pagina,'paginas':paginas,'pagina_actual':pagina_actual}
-    return render(request,"cliente/listar.html",context)
+    return render(request,"Cliente/listar.html",context)
 
 @login_required
 @transaction.atomic
@@ -42,7 +42,7 @@ def agregarcliente(request):
     else:
         form=ClienteForm()
     context={'form':form}
-    return render(request,"cliente/agregar.html",context)
+    return render(request,"Cliente/agregar.html",context)
 
 @login_required
 @transaction.atomic
@@ -57,7 +57,7 @@ def editarcliente(request,id):
     else:
         form=ClienteForm(instance=cliente)
     context={"form":form}
-    return render(request,"cliente/editar.html",context)
+    return render(request,"Cliente/editar.html",context)
 
 @login_required
 @transaction.atomic
@@ -74,7 +74,7 @@ def eliminarcliente(request,id):
 def listarmesa(request):
     mesas = Mesa.objects.filter(estado=True).order_by('nombre')
     context={'mesas':mesas}
-    return render(request,"mesa/listar.html",context)
+    return render(request,"Mesa/listar.html",context)
 
 @login_required
 @transaction.atomic
@@ -88,7 +88,7 @@ def agregarmesa(request):
     else:
         form=MesaForm()
     context={'form':form}
-    return render(request,"mesa/agregar.html",context)
+    return render(request,"Mesa/agregar.html",context)
 
 @login_required
 @transaction.atomic
@@ -103,7 +103,7 @@ def editarmesa(request,id):
     else:
         form=MesaForm(instance=mesa)
     context={"form":form}
-    return render(request,"mesa/editar.html",context)
+    return render(request,"Mesa/editar.html",context)
 
 @login_required
 @transaction.atomic
@@ -139,7 +139,7 @@ def listarplato(request):
             Q(nombre__icontains=queryset),estado=True
             ).distinct()
     context={'plato':plato,'pagina':pagina,'paginas':paginas,'pagina_actual':pagina_actual}
-    return render(request,"plato/listar.html",context)
+    return render(request,"Plato/listar.html",context)
 
 @login_required
 @transaction.atomic
@@ -160,7 +160,7 @@ def agregarplato(request):
         return redirect('listarplato')
     insumos = Insumo.objects.filter(estado=True)
     context={'form':form, 'insumos': insumos}
-    return render(request,"plato/agregar.html",context)
+    return render(request,"Plato/agregar.html",context)
 
 @login_required
 @transaction.atomic
@@ -178,7 +178,7 @@ def editarplato(request,id):
             return redirect('editarplato', id)
     insumos = DetallePlato.objects.filter(estado=True, plato = plato.id)
     context={'insumos':insumos, 'form':form, 'formDetalle':formDetalle, 'idplato': id}
-    return render(request,"plato/detalle.html",context)
+    return render(request,"Plato/detalle.html",context)
 
 @login_required
 @transaction.atomic
@@ -209,7 +209,7 @@ def editardetalleplato(request,id):
     else:
         form=DetallePlatoForm(detalle.plato, instance=detalle)
     context={"form":form, "idplato": idplato}
-    return render(request,"plato/detalleeditar.html",context)
+    return render(request,"Plato/detalleeditar.html",context)
 
 @login_required
 @transaction.atomic
@@ -303,7 +303,7 @@ def agregarpedido(request):
     platos=Plato.objects.filter(estado=True)
     mesas=Mesa.objects.filter(estado=True)
     context={'form':form, 'clientes': clientes, 'platos': platos, 'mesas': mesas}
-    return render(request,"pedido/agregar.html",context)
+    return render(request,"Pedido/agregar.html",context)
 
 @login_required
 @transaction.atomic
@@ -321,7 +321,7 @@ def editarpedido(request,id):
             return redirect('editarpedido', id)
     platos = DetallePedido.objects.filter(estado=True, pedido = pedido.id)
     context={'pedido':pedido, 'platos':platos, 'form':form, 'formDetalle':formDetalle, 'idpedido': id}
-    return render(request,"pedido/detalle.html",context)
+    return render(request,"Pedido/detalle.html",context)
 
 @login_required
 @transaction.atomic
@@ -350,7 +350,7 @@ def editardetallepedido(request,id):
     else:
         form=DetallePedidoForm(detalle.pedido, instance=detalle)
     context={"form":form, "idpedido": idpedido}
-    return render(request,"pedido/detalleeditar.html",context)
+    return render(request,"Pedido/detalleeditar.html",context)
 
 @login_required
 @transaction.atomic
@@ -398,6 +398,6 @@ def verreportepedidos(request):
         labels.append(p['plato__nombre'])
         data.append(p['total'])
     context = {"platos": platos, "labels": labels, "data": data}
-    return render(request,"pedido/grafico.html",context)
+    return render(request,"Pedido/grafico.html",context)
 
 

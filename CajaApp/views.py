@@ -36,7 +36,7 @@ def mostrarcaja(request):
         apertura = AperturaCaja.objects.filter(estadoApertura = True).first()
         form=AperturaCajaForm(request.user)
     context={'apertura':apertura, 'form':form}
-    return render(request,"caja/mostrar.html",context)
+    return render(request,"Caja/mostrar.html",context)
 
 @login_required
 @transaction.atomic
@@ -68,7 +68,7 @@ def pagarpedido(request, id):
         else:
             form = ComprobantePagoForm()
             context={'pedido':pedido, 'clientes': clientes, 'total':total, 'form':form}
-            return render(request,"pedido/pagar.html",context)
+            return render(request,"Pedido/pagar.html",context)
 
 @login_required
 @permission_required('CajaApp.view_comprobantepago', raise_exception=True)
@@ -84,7 +84,7 @@ def listarcomprobante(request):
         query = queryset.split("/")
         comprobantes=ComprobantePago.objects.filter(fecha__year=query[2], fecha__month=query[0], fecha__day = query[1], estado = True).distinct()
     context={'comprobantes':comprobantes,'pagina':pagina,'paginas':paginas,'pagina_actual':pagina_actual} 
-    return render(request,"comprobante/listar.html",context)
+    return render(request,"Comprobante/listar.html",context)
 
 @login_required
 @transaction.atomic
