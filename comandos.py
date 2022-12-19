@@ -37,7 +37,7 @@ grupo = Group.objects.get_or_create(name ='Mozo')
 try:
     user  = User.objects.get(username="cuentaMozo")
 except ObjectDoesNotExist:
-    user = User.objects.create_user('cuentaMozo', 'aaaaaa@hotmail.com', 'GRUPOis1')
+    user = User.objects.create_user('cuentaMozo', 'Anderson_24@hotmail.com', 'GRUPOis1')
     user.first_name = 'Anderson'
     user.last_name = 'Miguel'
     user.save()
@@ -67,7 +67,7 @@ grupo = Group.objects.get_or_create(name ='Cocina')
 try:
     user  = User.objects.get(username="cuentaCocina")
 except ObjectDoesNotExist:
-    user = User.objects.create_user('cuentaCocina', 'eeeeee@hotmail.com', 'GRUPOis1')
+    user = User.objects.create_user('cuentaCocina', 'Gerardo_23@hotmail.com', 'GRUPOis1')
     user.first_name = 'Gerardo'
     user.last_name = 'Avalos'
     user.save()
@@ -76,13 +76,13 @@ user.groups.clear()
 grupo = Group.objects.get(name ='Cocina')
 user.groups.add(grupo)
 
-#Cocina
+#Caja
 grupo = Group.objects.get_or_create(name ='Caja')
 
 try:
     user  = User.objects.get(username="cuentaCaja")
 except ObjectDoesNotExist:
-    user = User.objects.create_user('cuentaCaja', 'iiiiiii@hotmail.com', 'GRUPOis1')
+    user = User.objects.create_user('cuentaCaja', 'Alessandro_22@hotmail.com', 'GRUPOis1')
     user.first_name = 'Alessandro'
     user.last_name = 'Venegas'
     user.save()
