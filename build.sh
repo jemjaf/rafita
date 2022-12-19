@@ -6,5 +6,6 @@ pip install -r requirements.txt
 
 python manage.py collectstatic --no-input
 python manage.py migrate
-python manage.py createsu  # new
+# ./manage.py shell exec(open('createsu.py').read()) # new
+python createsu.py
 # python manage.py comandos  # new
