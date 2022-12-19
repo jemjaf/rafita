@@ -34,13 +34,6 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production! (In local is only True)
 DEBUG = os.getenv('DEBUG', '0').lower() in ['true', 't', '1']
 
-if DEBUG:
-    STATIC_ROOT = [
-        os.path.join(BASE_DIR, 'rafita/static')
-    ]
-else:
-    STATICFILES_DIRS = os.path.join(BASE_DIR, 'rafita/static')
-
 
 #Cuando DEBUG = False, Django no funcionará sin un valor adecuado para ALLOWED_HOSTS
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(' ')
@@ -162,7 +155,8 @@ USE_PE = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'rafita/static'
 
 #For Deployment
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
