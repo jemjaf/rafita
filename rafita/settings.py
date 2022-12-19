@@ -14,6 +14,8 @@ from pathlib import Path
 from django.contrib import messages 
 from django.contrib.messages import constants as message_constants
 import os
+# Don't forget to import dj-database-url at the beginning of the file
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,15 +25,18 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR,'rafita/static')]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
+# In local the secret is only the secret expose
+SECRET_KEY = os.environ.get('SECRET_KEY', default='django-insecure-b4(@ig6-k4e=+7#*jt-mco_0417&mfu0$qhz^d&mh^5i=t)3z9')
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-b4(@ig6-k4e=+7#*jt-mco_0417&mfu0$qhz^d&mh^5i=t)3z9'
+# SECURITY WARNING: don't run with debug turned on in production! (In local is only True)
+DEBUG = 'RENDER' not in os.environ
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
+#Cuando DEBUG = False, Django no funcionará sin un valor adecuado para ALLOWED_HOSTS
 ALLOWED_HOSTS = []
 
+#Puede obtener el nombre de su host de servicio web de la RENDER_EXTERNAL_HOSTNAMEvariable de entorno, que Render establece automáticamente.
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 # Application definition
 
@@ -52,6 +57,9 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    #For Deploy
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -89,17 +97,24 @@ WSGI_APPLICATION = 'rafita.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 #Conexión PostgresSQL Local
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'rafita',
-        'USER': 'postgres',
-        'PASSWORD': '1234',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'rafita',
+#         'USER': 'postgres',
+#         'PASSWORD': '1234',
+#         'HOST': '127.0.0.1',
+#         'PORT': '5432',
+#     }
+# }
 
+# Database Render Deployment
+# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+
+DATABASES = {
+    'default': dj_database_url.config(
+        # Feel free to alter this value to suit your needs.
+        default='postgresql://postgres:postgres@localhost:5432/rafita',        conn_max_age=600    )}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -138,6 +153,15 @@ USE_PE = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+#For Deployment
+# Following settings only make sense on production and may break development environments.
+if not DEBUG:    # Tell Django to copy statics to the `staticfiles` directory
+    # in your application directory on Render.
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    # Turn on WhiteNoise storage backend that takes care of compressing static files
+    # and creating unique names for each version so they can safely be cached forever.
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 LOGIN_URL = '/'
 
