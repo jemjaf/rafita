@@ -26,6 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(BASE_DIR / '.env')
 
+STATIC_ROOT = os.path.join(BASE_DIR,'rafita/static')
 # STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR,'rafita/static')]
 
