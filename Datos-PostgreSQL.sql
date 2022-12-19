@@ -1,3 +1,5 @@
+--DATOS DE PRUEBA PARA POSTGRESQL
+
 -- Proveedor
 INSERT INTO "ComprasApp_proveedor" (id, "RUC", razon_social, direccion, "DNI_representante", estado, telefono) VALUES
 (4, '12345672233', 'PACASMAYO S.A.C.', 'Av 10 de Julio', '12345678', false, '990909090'),
@@ -48,7 +50,7 @@ INSERT INTO "ComprasApp_proveedor" (id, "RUC", razon_social, direccion, "DNI_rep
 (49, '20052664901', 'Feedbug', '32753 2nd Trail', '65541268', false, '977843794'),
 (50, '20500773451', 'LiveZ', '5664 Arrowood Center', '74537852', true, '928742837');
 
-select * from "ComprasApp_proveedor"
+select * from "ComprasApp_proveedor";
 
 -- Insumos
 INSERT INTO "ComprasApp_insumo" (id, descripcion, unidad_medida, stock, estado, proveedor_id, precio) VALUES
@@ -294,7 +296,7 @@ INSERT INTO "ComprasApp_insumo" (id, descripcion, unidad_medida, stock, estado, 
 (303, 'Bread Crumbs - Japanese Style', 'Kg', '3.99', true, 12, '6.30'),
 (304, 'Tomatoes - Diced, Canned', 'Unidades', '22.19', true, 12, '7.25');
 
-select * from "ComprasApp_insumo"
+select * from "ComprasApp_insumo";
 
 
 --Clientes
@@ -320,10 +322,11 @@ INSERT INTO "PedidosApp_cliente" (id, direccion, email, telefono, estado, nombre
 (19, '14 Onsgard Street', 'lpirrii@squidoo.com', '964380410', true, 'Leah Pirri', '82730308', 'Natural', 'RUC'),
 (20, '701 Prairieview Terrace', 'mdellj@goo.gl', '999098759', true, 'Moira Dell Casa', '08447923', 'Jurídico', 'DNI');
 
-select * from "PedidosApp_cliente"
+select * from "PedidosApp_cliente";
 
 --Mesas
 INSERT INTO "PedidosApp_mesa" (id, nombre, "enUso", "horaUltimoUso", estado) VALUES
+(1, 'Mesa 1', false, '2022-08-21 23:54:51.006779', true),
 (2, 'Mesa 2', true, '2022-08-21 23:54:52.006779', true),
 (3, 'Mesa 3', true, '2022-08-21 23:54:55.068709', true),
 (4, 'Mesa 4', true, '2022-08-21 23:54:58.173501', true),
@@ -334,7 +337,7 @@ INSERT INTO "PedidosApp_mesa" (id, nombre, "enUso", "horaUltimoUso", estado) VAL
 (9, 'Mesa 9', true, '2022-08-21 23:55:21.165194', true),
 (10, 'Mesa 10', true, '2022-08-21 23:55:25.243673', true);
 
-select * from "PedidosApp_mesa"
+select * from "PedidosApp_mesa";
 
 --Plato
 INSERT INTO "PedidosApp_plato" (id, nombre, estado, categoria, precio) VALUES
@@ -369,5 +372,4 @@ INSERT INTO "PedidosApp_plato" (id, nombre, estado, categoria, precio) VALUES
 (29, 'vulputate', true, 'Bebida', '15.43'),
 (30, 'leo odio', true, 'Bebida', '20.81');
 
-select * from "PedidosApp_plato"
-
+select * from "PedidosApp_plato";
