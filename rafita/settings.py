@@ -35,11 +35,11 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG', '0').lower() in ['true', 't', '1']
 
 if DEBUG:
-    STATICFILES_DIRS = [
+    STATIC_ROOT = [
         os.path.join(BASE_DIR, 'rafita/static')
     ]
 else:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'rafita/static')
+    STATICFILES_DIRS = os.path.join(BASE_DIR, 'rafita/static')
 
 
 #Cuando DEBUG = False, Django no funcionará sin un valor adecuado para ALLOWED_HOSTS
