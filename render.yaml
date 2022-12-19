@@ -1,0 +1,20 @@
+databases:
+  - name: rafita
+    databaseName: rafita
+    user: rafita
+
+services:
+  - type: web
+    name: rafita
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn rafita.wsgi:application"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: rafita
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4
