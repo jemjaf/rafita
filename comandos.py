@@ -4,17 +4,18 @@ from django.contrib.auth.models import User, Group, Permission, ContentType
 from django.db.models import Q
 from django.core.exceptions import ObjectDoesNotExist
 
-#Usuarios
-#cuentaCaja
-#cuentaCocina
-#cuentaAdmin
-#cuentaMozo
-#cuentaRepartidor
-#Contraseña: GRUPOis1
+# Usuarios
+    # cuentaCaja
+    # cuentaCocina
+    # cuentaAdmin
+    # cuentaMozo
+    # cuentaRepartidor
+# Contraseña:
+    # GRUPOis1
 
 #SUPERUSUARIO
-#admin
-#1234
+    # admin
+    # 1234
 
 #Administrador
 grupo = Group.objects.get_or_create(name ='Administrador')
