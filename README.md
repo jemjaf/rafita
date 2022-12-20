@@ -25,8 +25,8 @@ Ingrese los siguientes detalles:
  - Rama: Su rama principal (p. ej., maestro/principal)
  - Directorio raíz: dejar vacío
  - Entorno: Python 3
- - Comando de compilación:sh build.sh
- - Comando de iniciogunicorn core.wsgi:application
+ - Comando de compilación: sh build.sh
+ - Comando de inicio: gunicorn core.wsgi:application
  - Tipo de Plan: Plan que se adapta a tus necesidades (Free)
 
 Abra el menú desplegable "Avanzado" y agregue las siguientes variables ambientales:
