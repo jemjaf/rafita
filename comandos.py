@@ -18,7 +18,6 @@ from django.core.exceptions import ObjectDoesNotExist
     # 1234
 
 print('commands.py starts its execution')
-
 #Administrador
 grupo = Group.objects.get_or_create(name ='Administrador')
 
@@ -315,6 +314,6 @@ group.permissions.add(p)
 p = Permission.objects.get(codename='view_pedido')
 group.permissions.add(p) 
 p = Permission.objects.get(codename='view_detallepedido')
-group.permissions.add(p)
+group.permissions.add(p) 
 
 print('commands.py executed successfully')

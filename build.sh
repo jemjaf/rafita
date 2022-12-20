@@ -7,7 +7,6 @@ pip install -r requirements.txt
 python manage.py collectstatic --no-input
 python manage.py migrate
 python manage.py createsu # new
-
 chmod u+x manage.py
 chmod u+x comandos.py
 ./manage.py shell < comandos.py
@@ -15,4 +14,4 @@ chmod u+x comandos.py
 # python ./createsu.py
 # python manage.py comandos  # new
 
-#Gracias a https://testdriven.io/blog/django-render/ y a ChatGPT
+# gracias a https://testdriven.io/blog/django-render/ y a ChatGPT
