@@ -1,5 +1,4 @@
 --DATOS DE PRUEBA PARA POSTGRESQL
-
 -- Proveedor
 INSERT INTO "ComprasApp_proveedor" (id, "RUC", razon_social, direccion, "DNI_representante", estado, telefono) VALUES
 (4, '12345672233', 'PACASMAYO S.A.C.', 'Av 10 de Julio', '12345678', false, '990909090'),
