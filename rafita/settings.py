@@ -37,7 +37,6 @@ DEBUG = os.getenv('DEBUG', '0').lower() in ['true', 't', '1']
 
 #Cuando DEBUG = False, Django no funcionará sin un valor adecuado para ALLOWED_HOSTS
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(' ')
-CORS_ORIGIN_ALLOW_ALL = True
 
 #Puede obtener el nombre de su host de servicio web de la RENDER_EXTERNAL_HOSTNAMEvariable de entorno, que Render establece automáticamente.
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
@@ -57,7 +56,6 @@ INSTALLED_APPS = [
     'PedidosApp',
     'ComprasApp',
     'CajaApp',
-    'corsheaders',
     
 ]
 
@@ -67,7 +65,6 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
