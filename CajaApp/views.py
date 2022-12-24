@@ -104,7 +104,7 @@ def eliminarcomprobante(request,id):
 @login_required
 @permission_required('CajaApp.view_comprobantepago', raise_exception=True)
 def generarcomprobante(request, id):
-    template_path = 'comprobante/detalle.html'
+    template_path = 'Comprobante/detalle.html'
     comprobante = ComprobantePago.objects.filter(pedido_id = id, estado = True).first()
     pedido = Pedido.objects.get(id = id)
     detalle = DetallePedido.objects.filter(pedido_id = id)
