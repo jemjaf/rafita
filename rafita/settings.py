@@ -32,7 +32,7 @@ load_dotenv(BASE_DIR / '.env')
 # In local the secret is only the secret expose
 SECRET_KEY = 'cualquiercosa'
 # SECURITY WARNING: don't run with debug turned on in production! (In local is only True)
-DEBUG = False
+DEBUG = True
 
 
 #Cuando DEBUG = False, Django no funcionará sin un valor adecuado para ALLOWED_HOSTS
