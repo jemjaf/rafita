@@ -146,10 +146,11 @@ USE_PE = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'rafita/static'
+STATICFILES_DIRS = ( BASE_DIR/'static',)
+# STATIC_ROOT = BASE_DIR / 'rafita/static'
 
 #For Deployment
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 LOGIN_URL = '/'
 
