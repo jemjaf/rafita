@@ -30,17 +30,13 @@ load_dotenv(BASE_DIR / '.env')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 # In local the secret is only the secret expose
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = 'cualquiercosa'
 # SECURITY WARNING: don't run with debug turned on in production! (In local is only True)
-DEBUG = os.getenv('DEBUG', '0').lower() in ['true', 't', '1']
+DEBUG = False
 
 
 #Cuando DEBUG = False, Django no funcionará sin un valor adecuado para ALLOWED_HOSTS
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(' ')
-
-#Puede obtener el nombre de su host de servicio web de la RENDER_EXTERNAL_HOSTNAMEvariable de entorno, que Render establece automáticamente.
-RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
-if RENDER_EXTERNAL_HOSTNAME:    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -112,12 +108,6 @@ WSGI_APPLICATION = 'rafita.wsgi.application'
 #     }
 # }
 
-# Database Render Deployment
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
-DATABASES = {
-    'default': dj_database_url.parse(os.environ.get('DATABASE_URL'), conn_max_age=600),
-}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -177,3 +167,4 @@ message_constants.SUCCESS:'succes',
 message_constants.WARNING:'warning',
 message_constants.ERROR:'danger',
 }
+
