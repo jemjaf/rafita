@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'SeguridadApp',
     'crispy_forms',
+    'crispy_bootstrap4',
     'PedidosApp',
     'ComprasApp',
     'CajaApp',
@@ -97,16 +98,16 @@ WSGI_APPLICATION = 'rafita.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 #Conexión PostgresSQL Local
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'rafita',
-#         'USER': 'postgres',
-#         'PASSWORD': '1234',
-#         'HOST': '127.0.0.1',
-#         'PORT': '5432',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'rafita',
+        'USER': 'postgres',
+        'PASSWORD': 'pass',
+        'HOST': '172.17.0.2',
+        'PORT': '5432',
+    }
+}
 
 
 # Password validation
@@ -159,6 +160,7 @@ LOGIN_URL = '/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
 
 #clases para los mensajes flash de bootstrap 
 MESSAGE_TAGS={
